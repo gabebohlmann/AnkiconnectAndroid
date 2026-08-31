@@ -30,6 +30,7 @@ public class IntegratedAPI {
     public final NoteAPI noteAPI;
     public final MediaAPI mediaAPI;
     private final AddContentApi api; // TODO: Combine all API classes???
+    public final CardAPI cardAPI;
 
     //From anki-connect repo
     private static final String CAN_ADD_ERROR_REASON = "cannot create note because it is a duplicate";
@@ -39,6 +40,11 @@ public class IntegratedAPI {
         deckAPI = new DeckAPI(context);
         modelAPI = new ModelAPI(context);
         noteAPI = new NoteAPI(context);
+        cardAPI = new CardAPI(
+            context,
+            deckAPI,
+            noteAPI
+        );
         mediaAPI = new MediaAPI(context);
 
         api = new AddContentApi(context);

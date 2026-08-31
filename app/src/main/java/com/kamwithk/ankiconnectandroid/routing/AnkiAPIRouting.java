@@ -70,6 +70,15 @@ public class AnkiAPIRouting {
                 return storeMediaFile(raw_json);
             case "notesInfo":
                 return notesInfo(raw_json);
+            case "findCards":
+                return findCards(raw_json);
+
+            case "cardsInfo":
+                return cardsInfo(raw_json);
+            case "answerCards":
+                return answerCards(raw_json);
+            case "gradeNow":
+                return gradeNow(raw_json);
             case "multi":
                 JsonArray actions = Parser.getMultiActions(raw_json);
                 JsonArray results = new JsonArray();
@@ -232,4 +241,41 @@ public class AnkiAPIRouting {
         ArrayList<Long> noteIds = Parser.getNoteIds(raw_json);
         return Parser.gson.toJson(integratedAPI.noteAPI.notesInfo(noteIds));
     }
+
+    private String findCards(JsonObject raw_json) throws Exception {
+        return Parser.gson.toJson(
+                integratedAPI.cardAPI.findCards(
+                        Parser.getNoteQuery(raw_json)
+                )
+        );
+    }
+
+    private String cardsInfo(JsonObject raw_json) throws Exception {
+        return Parser.gson.toJson(
+                integratedAPI.cardAPI.cardsInfo(
+                        Parser.getCardIds(raw_json)
+                )
+        );
+    }
+
+    private String answerCards(JsonObject raw_json) throws Exception {
+        return Parser.gson.toJson(
+                integratedAPI.cardAPI.answerCards(
+                        Parser.getCardAnswers(raw_json)
+                )
+        );
+    }
+
+    private String gradeNow(JsonObject raw_json)
+            throws Exception {
+
+        boolean result =
+                integratedAPI.cardAPI.gradeNow(
+                        Parser.getCardIds(raw_json),
+                        Parser.getEase(raw_json)
+                );
+
+        return Parser.gson.toJson(result);
+    }
+
 }

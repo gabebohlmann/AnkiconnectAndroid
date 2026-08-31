@@ -149,5 +149,46 @@ public class Parser {
     public static JsonArray getMultiActions(JsonObject raw_data) {
         return raw_data.get("params").getAsJsonObject().get("actions").getAsJsonArray();
     }
+
+    public static ArrayList<Long> getCardIds(JsonObject raw_data) {
+        ArrayList<Long> cardIds = new ArrayList<>();
+
+        JsonArray jsonCardIds =
+                raw_data.get("params")
+                        .getAsJsonObject()
+                        .get("cards")
+                        .getAsJsonArray();
+
+        for (JsonElement cardId : jsonCardIds) {
+            cardIds.add(cardId.getAsLong());
+        }
+
+        return cardIds;
+    }
+
+    public static ArrayList<CardAnswerRequest> getCardAnswers(JsonObject raw_data) {
+        ArrayList<CardAnswerRequest> answers = new ArrayList<>();
+
+        JsonArray jsonAnswers =
+                raw_data.get("params")
+                        .getAsJsonObject()
+                        .get("answers")
+                        .getAsJsonArray();
+
+        for (JsonElement answer : jsonAnswers) {
+            answers.add(CardAnswerRequest.fromJson(answer));
+        }
+
+        return answers;
+    }
+
+    public static int getEase(JsonObject raw_data) {
+        return raw_data
+                .get("params")
+                .getAsJsonObject()
+                .get("ease")
+                .getAsInt();
+    }
+
 }
 
